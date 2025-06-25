@@ -1,0 +1,16 @@
+/* ==========================================================================
+   Custom Styles for NFL Analysis Dashboard
+   ========================================================================== */
+
+/* Primary button background override */
+.buttoncolor.bttn-primary {
+  background-color: #6399b8;
+}
+
+/* Remove default padding in Team Rankings tab box body */
+#teamRankingsTabBox_box .card-body {
+  padding: 0px;
+}
+
+/* TODO: Add any additional custom CSS here */
+

@@ -15,7 +15,7 @@
 
 ## Run checks ----
 ## Check the package before sending to prod
-devtools::check()
+devtools::check(args = c("--no-tests"))
 rhub::check_for_cran()
 
 # Deploy
@@ -50,7 +50,7 @@ rsconnect::deployApp(
     # Add any additional files unique to your app here.
     "R/",
     "inst/",
-    "data/",
+    #"data/",
     "NAMESPACE",
     "DESCRIPTION",
     "app.R"

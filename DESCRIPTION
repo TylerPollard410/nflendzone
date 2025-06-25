@@ -10,9 +10,20 @@ License: MIT + file LICENSE
 URL: https://github.com/TylerPollard410/nflendzone
 BugReports: https://github.com/TylerPollard410/nflendzone/issues
 Imports: 
+    bs4Dash,
     config,
+    dplyr,
+    fresh,
     golem,
-    shiny
+    nflreadr,
+    pkgload,
+    reactable,
+    reactablefmtr,
+    shiny,
+    shinycssloaders,
+    shinyjs,
+    shinyWidgets,
+    stringr
 Suggests: 
     spelling,
     testthat (>= 3.0.0)
