@@ -15,6 +15,7 @@ Imports:
     dplyr,
     fresh,
     golem,
+    markdown,
     nflreadr,
     pkgload,
     reactable,

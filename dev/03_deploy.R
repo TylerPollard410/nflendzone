@@ -43,9 +43,12 @@ golem::add_shinyserver_file()
 rsconnect::writeManifest()
 
 ## In command line.
+install.packages(".", repos = NULL, type = "source")
 rsconnect::deployApp(
   appName = desc::desc_get_field("Package"),
   appTitle = desc::desc_get_field("Package"),
+  server = "shinyapps.io",
+  account = "tylerpollard410",
   appFiles = c(
     # Add any additional files unique to your app here.
     "R/",
