@@ -306,9 +306,9 @@ mod_standings_server <- function(id, teams_data, season_standings_data) {
     selected_season_data <- reactive({
       req(standingsSeason())
       #standings_df <- load_season_standings_data(seasons = standingsSeason())
-      season_standings_data |>
-        filter(season == standingsSeason()) |>
       #standings_df |>
+      season_standings_data |>
+        dplyr::filter(season == standingsSeason()) |>
         # Join for logo and team name (assumes 'team' is the key in both)
         dplyr::left_join(
           teams_data |> dplyr::select(team_abbr, team_logo_espn, team_name),

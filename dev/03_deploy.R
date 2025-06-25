@@ -43,7 +43,7 @@ golem::add_shinyserver_file()
 rsconnect::writeManifest()
 
 ## In command line.
-install.packages(".", repos = NULL, type = "source")
+remotes::install_github("TylerPollard410/nflendzone", force = TRUE)
 rsconnect::deployApp(
   appName = desc::desc_get_field("Package"),
   appTitle = desc::desc_get_field("Package"),
