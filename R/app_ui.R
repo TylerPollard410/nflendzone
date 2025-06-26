@@ -235,54 +235,55 @@ app_ui <- function(request) {
                       ### Team Rankings ==========================================
                       tabItem(
                         tabName = "team_rankings_tab",
-                        h2("Team Rankings"),
-                        #### Inputs ----
-                        fluidRow(
-                          #column(width = 1,
-                          virtualSelectInput(
-                            inputId = "team_rankings_season",
-                            #width = "100%",
-                            label = "Select season",
-                            choices = seq(2007, get_current_season()),
-                            selected = get_current_season()
-                          )
-                          #) #end column
-                        ), # end fluidRow
-                        br(),
-                        # tags$style(
-                        #   ".card-body {padding: 0px;}"
-                        # ),
-                        fluidRow(
-                          # tags$style(
-                          #   ".col-sm-12 {padding: 0px;}"
-                          # ),
-                          tabBox(
-                            id = "team_rankings_tabBox",
-                            type = "pills",
-                            width = 12,
-                            #### Overview ----
-                            tabPanel(
-                              title = "Overview",
-                              value = "team_rankings_overview"
-                              #teamRankingsOverviewUI("team_rank_overview")
-                            ),
-                            #### EPA ----
-                            tabPanel(
-                              title = "EPA",
-                              value = "team_rankings_epa"
-                            ),
-                            #### ELO ----
-                            tabPanel(
-                              title = "Elo",
-                              value = "team_rankings_elo"
-                            ),
-                            #### SRS ----
-                            tabPanel(
-                              title = "SRS",
-                              value = "team_rankings_srs"
-                            )
-                          ) # end Team Rankings Tab box
-                        )
+                        mod_team_rankings_ui("team_rankings")
+                        # h2("Team Rankings"),
+                        # #### Inputs ----
+                        # fluidRow(
+                        #   #column(width = 1,
+                        #   virtualSelectInput(
+                        #     inputId = "team_rankings_season",
+                        #     #width = "100%",
+                        #     label = "Select season",
+                        #     choices = seq(2007, get_current_season()),
+                        #     selected = get_current_season()
+                        #   )
+                        #   #) #end column
+                        # ), # end fluidRow
+                        # br(),
+                        # # tags$style(
+                        # #   ".card-body {padding: 0px;}"
+                        # # ),
+                        # fluidRow(
+                        #   # tags$style(
+                        #   #   ".col-sm-12 {padding: 0px;}"
+                        #   # ),
+                        #   tabBox(
+                        #     id = "team_rankings_tabBox",
+                        #     type = "pills",
+                        #     width = 12,
+                        #     #### Overview ----
+                        #     tabPanel(
+                        #       title = "Overview",
+                        #       value = "team_rankings_overview"
+                        #       #teamRankingsOverviewUI("team_rank_overview")
+                        #     ),
+                        #     #### EPA ----
+                        #     tabPanel(
+                        #       title = "EPA",
+                        #       value = "team_rankings_epa"
+                        #     ),
+                        #     #### ELO ----
+                        #     tabPanel(
+                        #       title = "Elo",
+                        #       value = "team_rankings_elo"
+                        #     ),
+                        #     #### SRS ----
+                        #     tabPanel(
+                        #       title = "SRS",
+                        #       value = "team_rankings_srs"
+                        #     )
+                        #   ) # end Team Rankings Tab box
+                        # )
                       ), #end Team Rankings Tab
                       ### Team Scoring ==========================================
                       ### Team Efficiency ====================================

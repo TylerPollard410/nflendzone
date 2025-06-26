@@ -25,7 +25,7 @@ standingsTableOutput <- function(id) {
 standingsTableServer <- function(
     id,
     standingsSeason,
-    standingsStat = NULL,
+    standingsStat,
     teams_data,
     standingsTableData,
     conference = NULL,
@@ -245,7 +245,7 @@ mod_standings_ui <- function(id) {
   tagList(
     fluidRow(
       div(style = "margin-right: 1rem",
-          virtualSelectInput(
+          selectInput(
             inputId = ns("season"),
             label = "Select season",
             choices = seq(2007, get_current_season()),
@@ -253,22 +253,58 @@ mod_standings_ui <- function(id) {
           )
       ),
       div(style = "margin-right: 1rem",
-          radioGroupButtons(
+          radioButtons(
             inputId = ns("stat"),
             label = "Table Statistic",
             choices = c("Total", "Game"),
-            status = "info"
+            inline = TRUE
+            #status = "info"
           )
       ),
       div(style = "margin-right: 1rem",
-          radioGroupButtons(
+          radioButtons(
             inputId = ns("rank_type"),
             label = "Rank Type",
             choices = c("Division" = "div_rank", "Conference" = "conf_rank", "NFL" = "nfl_rank"),
             selected = "div_rank",
-            status = "info"
+            inline = TRUE
+            #status = "info"
           )
       )
+      # div(style = "margin-right: 1rem",
+      #     shinyWidgets::virtualSelectInput(
+      #       inputId = ns("season"),
+      #       label = "Select season",
+      #       choices = as.character(seq(2007, get_current_season())),
+      #       selected = as.character(get_current_season()),
+      #       search = FALSE
+      #     )
+      # ),
+      # div(style = "margin-right: 1rem",
+      #     shinyWidgets::radioGroupButtons(
+      #       inputId = ns("stat"),
+      #       label = "Table Statistic",
+      #       choices = c("Total", "Game"),
+      #       status = "info",
+      #       checkIcon = list(
+      #         yes = icon("check"),
+      #         no = icon("")
+      #       )
+      #     )
+      # ),
+      # div(style = "margin-right: 1rem",
+      #     shinyWidgets::radioGroupButtons(
+      #       inputId = ns("rank_type"),
+      #       label = "Rank Type",
+      #       choices = c("Division" = "div_rank", "Conference" = "conf_rank", "NFL" = "nfl_rank"),
+      #       selected = "div_rank",
+      #       status = "info",
+      #       checkIcon = list(
+      #         yes = icon("check"),
+      #         no = icon("")
+      #       )
+      #     )
+      # )
     ),
     br(),
     conditionalPanel(
@@ -305,10 +341,9 @@ mod_standings_server <- function(id, teams_data, season_standings_data) {
     
     selected_season_data <- reactive({
       req(standingsSeason())
-      #standings_df <- load_season_standings_data(seasons = standingsSeason())
-      #standings_df |>
-      season_standings_data |>
-        dplyr::filter(season == standingsSeason()) |>
+      # standings_df <- load_season_standings_data(seasons = standingsSeason())
+      # standings_df |>
+      season_standings_data |> dplyr::filter(season == standingsSeason()) |>
         # Join for logo and team name (assumes 'team' is the key in both)
         dplyr::left_join(
           teams_data |> dplyr::select(team_abbr, team_logo_espn, team_name),
