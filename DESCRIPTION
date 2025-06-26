@@ -9,6 +9,8 @@ Description: Interactive Shiny dashboard for NFL team rankings, historical
 License: MIT + file LICENSE
 URL: https://github.com/TylerPollard410/nflendzone
 BugReports: https://github.com/TylerPollard410/nflendzone/issues
+Depends: 
+    R (>= 4.1.0)
 Imports: 
     bs4Dash,
     config,
