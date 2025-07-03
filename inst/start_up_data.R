@@ -14,5 +14,5 @@ base_repo_url <- "https://github.com/TylerPollard410/nflendzoneData/releases/dow
 # season_standings_data <- readRDS(url(paste0(base_repo_url, "season_standings/season_standings.rds")))
 # feature_long_data <- readRDS(url(paste0(base_repo_url, "feature_long/feature_long.rds")))
 season_standings_data <- nflreadr::rds_from_url(paste0(base_repo_url, "season_standings/season_standings.rds"))
-feature_long_data <- nflreadr::rds_from_url(paste0(base_repo_url, "feature_long/feature_long.rds"))
+team_features_data <- nflreadr::rds_from_url(paste0(base_repo_url, "team_features/team_features.rds"))
 # —– END STARTUP —–

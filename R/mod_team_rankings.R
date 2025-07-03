@@ -22,7 +22,7 @@ teamRankingsOverviewServer <- function(id,
           losses,
           ties,
           win_pct,
-          elo = team_elo_post,
+          elo = elo_post,
           off_total_epa_mean,
           def_total_epa_mean,
           off_total_epa_sum,
@@ -55,6 +55,10 @@ teamRankingsOverviewServer <- function(id,
           pfg = pf / games,
           pag = pa / games,
           .before = MOV
+        ) |>
+        dplyr::mutate(
+          OSRS_scale = scale(OSRS),
+          DSRS_scale = scale(DSRS)
         ) |>
         dplyr::select(-c(pf, pa)) |>
         dplyr::slice_tail(n = 1, by = team) |>
@@ -182,7 +186,12 @@ teamRankingsOverviewServer <- function(id,
           elo = colDef(
             #minWidth = 70,
             format = colFormat(digits = 0),
-            style = list(borderRight = "1px solid #d3d3d3")
+            #style = list(borderRight = "1px solid #d3d3d3"),
+            style = color_scales(
+              data = overviewData(),
+              colors = c("red","pink", "whitesmoke", "palegreen", "green"),
+              bias = 1
+            )
           ),
           ## EPA/Play ----
           off_total_epa_mean = colDef(
@@ -233,19 +242,43 @@ teamRankingsOverviewServer <- function(id,
           ### SRS ----
           SRS = colDef(
             format = colFormat(digits = 2),
+            # cell = data_bars(overviewData(),
+            #                  fill_color = c('tomato','white','dodgerblue'),
+            #                  #fill_gradient = TRUE,
+            #                  text_position = "outside-end",
+            #                  number_fmt = scales::label_number(accuracy = .01))
             style = color_scales(
               data = overviewData(),
               colors = c("red","pink", "whitesmoke", "palegreen", "green"),
+              #colors = c('tomato','whitesmoke','dodgerblue'),
               bias = 1
             )
           ),
           ### OSRS ----
           OSRS = colDef(
-            format = colFormat(digits = 2)
+            format = colFormat(digits = 2),
+            cell = color_tiles(overviewData(), 
+                               number_fmt = scales::label_number(accuracy = .01),
+                               colors = c('tomato','white','dodgerblue'),
+                               color_by = "OSRS_scale",
+                               bias = 1,
+                               box_shadow = TRUE)
           ),
+          OSRS_scale = colDef(
+            show = FALSE
+          ), 
           ### DSRS ----
           DSRS = colDef(
-            format = colFormat(digits = 2)
+            format = colFormat(digits = 2),
+            cell = color_tiles(overviewData(), 
+                               number_fmt = scales::label_number(accuracy = .01),
+                               colors = c('tomato','white','dodgerblue'),
+                               color_by = "DSRS_scale",
+                               bias = 1, 
+                               box_shadow = TRUE)
+          ),
+          DSRS_scale = colDef(
+            show = FALSE
           )
         )
       )
@@ -309,14 +342,14 @@ mod_team_rankings_ui <- function(id){
 
 
 mod_team_rankings_server <- function(id,
-                                     feature_long_data,
+                                     team_features_data,
                                      teams_data = teams_data){
   moduleServer(id, function(input, output, session){
     seasonRankings <- reactive(input$season)
     
     rankings_data <- reactive({
       req(seasonRankings())
-      feature_long_data |> dplyr::filter(season == seasonRankings()) |>
+      team_features_data |> dplyr::filter(season == seasonRankings()) |>
         dplyr::left_join(
           teams_data |> dplyr::select(team_abbr, team_logo_espn),
           by = dplyr::join_by(team == team_abbr)

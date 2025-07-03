@@ -7,6 +7,7 @@
 #'  prepare_choices
 #' @importFrom shinycssloaders withSpinner
 #' @importFrom reactablefmtr group_border_sort group_merge_sort embed_img fivethirtyeight color_scales
+#'  color_tiles data_bars
 #' @importFrom nflreadr load_teams get_current_season get_current_week
 #' @noRd
 

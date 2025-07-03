@@ -28,7 +28,7 @@ app_server <- function(input, output, session) {
   ### Team Rankings ==========================================
   mod_team_rankings_server(
     "team_rankings",
-    feature_long_data = feature_long_data,
+    team_features_data = team_features_data,
     teams_data = teams_data
   )
 }
