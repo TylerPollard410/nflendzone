@@ -2385,54 +2385,6 @@
       "Maintainer": "Joe Cheng <joe@posit.co>",
       "Repository": "CRAN"
     },
-    "nflendzone": {
-      "Package": "nflendzone",
-      "Version": "0.1.0",
-      "Source": "GitHub",
-      "Title": "NFL EndZone Analytics Shiny Dashboard",
-      "Authors@R": "person(\"Tyler\", \"Pollard\", , \"tylerpollard410@gmail.com\", role = c(\"aut\", \"cre\"))",
-      "Description": "Interactive Shiny dashboard for NFL team rankings, historical performance and Bayesian betting predictions (built with nflverse & rstan).",
-      "License": "MIT + file LICENSE",
-      "URL": "https://github.com/TylerPollard410/nflendzone",
-      "BugReports": "https://github.com/TylerPollard410/nflendzone/issues",
-      "Depends": [
-        "R (>= 4.1.0)"
-      ],
-      "Imports": [
-        "bs4Dash",
-        "config",
-        "dplyr",
-        "fresh",
-        "golem",
-        "markdown",
-        "nflreadr",
-        "reactable",
-        "reactablefmtr",
-        "scales",
-        "shiny",
-        "shinycssloaders",
-        "shinyjs",
-        "shinyWidgets",
-        "stringr"
-      ],
-      "Suggests": [
-        "spelling",
-        "testthat (>= 3.0.0)"
-      ],
-      "Config/testthat/edition": "3",
-      "Encoding": "UTF-8",
-      "Language": "en-US",
-      "RoxygenNote": "7.3.2",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "nflendzone",
-      "RemoteUsername": "TylerPollard410",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "7876badc611bcc628d6d6b998e7510f7449f6673",
-      "NeedsCompilation": "no",
-      "Author": "Tyler Pollard [aut, cre]",
-      "Maintainer": "Tyler Pollard <tylerpollard410@gmail.com>"
-    },
     "nflreadr": {
       "Package": "nflreadr",
       "Version": "1.5.0",

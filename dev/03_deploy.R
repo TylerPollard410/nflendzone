@@ -38,6 +38,8 @@ golem::add_shinyappsio_file()
 golem::add_shinyserver_file()
 
 ## Deploy to Posit Connect or ShinyApps.io ----
+renv::snapshot(type = "implicit")
+renv::remove("nflendzone")
 
 ## Add/update manifest file (optional; for Git backed deployment on Posit )
 rsconnect::writeManifest()
