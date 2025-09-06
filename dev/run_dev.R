@@ -18,4 +18,5 @@ run_app()
 # app.R run
 pkgload::load_all(export_all = FALSE,helpers = FALSE,attach_testthat = FALSE)
 options( "golem.app.prod" = FALSE)
+library(nflendzone)
 nflendzone::run_app() # add parameters here (if any)
