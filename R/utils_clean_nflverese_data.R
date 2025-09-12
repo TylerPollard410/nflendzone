@@ -49,6 +49,3 @@ add_week_seq <- function(df) {
     dplyr::left_join(weeks_tbl, by = c("season", "week")) |>
     dplyr::relocate(week_seq, .after = week)
 }
-
-
-

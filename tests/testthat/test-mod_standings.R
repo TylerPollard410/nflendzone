@@ -25,7 +25,7 @@
 #     # - Testing output
 #     # expect_true(inherits(output$tbl$html, "html"))
 # })
-#  
+#
 # test_that("module ui works", {
 #   ui <- mod_standings_ui(id = "test")
 #   golem::expect_shinytaglist(ui)
@@ -35,4 +35,4 @@
 #     expect_true(i %in% names(fmls))
 #   }
 # })
-#  
+#

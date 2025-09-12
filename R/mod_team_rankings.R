@@ -6,10 +6,8 @@ teamRankingsOverviewUI <- function(id) {
   )
 }
 
-teamRankingsOverviewServer <- function(id,
-                                      rankings_data){
-  moduleServer(id, function(input, output, session){
-    
+teamRankingsOverviewServer <- function(id, rankings_data) {
+  moduleServer(id, function(input, output, session) {
     overviewData <- reactive({
       rankings_data() |>
         # slice_tail(n = 1, by = team) |>
@@ -36,8 +34,7 @@ teamRankingsOverviewServer <- function(id,
           DSRS
         ) |>
         dplyr::mutate(
-          dplyr::across(dplyr::contains("epa"),
-                        ~dplyr::cummean(.x)),
+          dplyr::across(dplyr::contains("epa"), ~ dplyr::cummean(.x)),
           #.names = "{.col}_cum"),
           .keep = "unused",
           .after = elo,
@@ -79,7 +76,7 @@ teamRankingsOverviewServer <- function(id,
       # rename_with(~str_remove(.x, pattern = "team_"), .cols = -c(team_logo_espn, team)) |>
       # rename_with(~str_remove(.x, pattern = "_cum"), .cols = everything())
     })
-    
+
     output$teamRankingsOverviewTable <- renderReactable({
       overviewDataReact <- reactable(
         data = overviewData(),
@@ -106,18 +103,24 @@ teamRankingsOverviewServer <- function(id,
         #   )
         # ),
         columnGroups = list(
-          colGroup(name = "Record",
-                   columns = c("games", "wins", "losses", "ties", "win_pct")),
-          colGroup(name = "Elo",
-                   columns = c("elo")),
-          colGroup(name = "EPA/Play",
-                   columns = stringr::str_subset(colnames(overviewData()), "epa_mean")),
-          colGroup(name = "EPA/Game",
-                   columns = stringr::str_subset(colnames(overviewData()), "epa_sum")),
-          colGroup(name = "Points/Game",
-                   columns = c("pfg", "pag", "MOV")),
-          colGroup(name = "Simple Rating System",
-                   columns = c("SOS", "SRS", "OSRS", "DSRS"))
+          colGroup(
+            name = "Record",
+            columns = c("games", "wins", "losses", "ties", "win_pct")
+          ),
+          colGroup(name = "Elo", columns = c("elo")),
+          colGroup(
+            name = "EPA/Play",
+            columns = stringr::str_subset(colnames(overviewData()), "epa_mean")
+          ),
+          colGroup(
+            name = "EPA/Game",
+            columns = stringr::str_subset(colnames(overviewData()), "epa_sum")
+          ),
+          colGroup(name = "Points/Game", columns = c("pfg", "pag", "MOV")),
+          colGroup(
+            name = "Simple Rating System",
+            columns = c("SOS", "SRS", "OSRS", "DSRS")
+          )
         ),
         defaultColDef = colDef(
           vAlign = "center",
@@ -189,7 +192,7 @@ teamRankingsOverviewServer <- function(id,
             #style = list(borderRight = "1px solid #d3d3d3"),
             style = color_scales(
               data = overviewData(),
-              colors = c("red","pink", "whitesmoke", "palegreen", "green"),
+              colors = c("red", "pink", "whitesmoke", "palegreen", "green"),
               bias = 1
             )
           ),
@@ -249,7 +252,7 @@ teamRankingsOverviewServer <- function(id,
             #                  number_fmt = scales::label_number(accuracy = .01))
             style = color_scales(
               data = overviewData(),
-              colors = c("red","pink", "whitesmoke", "palegreen", "green"),
+              colors = c("red", "pink", "whitesmoke", "palegreen", "green"),
               #colors = c('tomato','whitesmoke','dodgerblue'),
               bias = 1
             )
@@ -257,25 +260,29 @@ teamRankingsOverviewServer <- function(id,
           ### OSRS ----
           OSRS = colDef(
             format = colFormat(digits = 2),
-            cell = color_tiles(overviewData(), 
-                               number_fmt = scales::label_number(accuracy = .01),
-                               colors = c('tomato','white','dodgerblue'),
-                               color_by = "OSRS_scale",
-                               bias = 1,
-                               box_shadow = TRUE)
+            cell = color_tiles(
+              overviewData(),
+              number_fmt = scales::label_number(accuracy = .01),
+              colors = c('tomato', 'white', 'dodgerblue'),
+              color_by = "OSRS_scale",
+              bias = 1,
+              box_shadow = TRUE
+            )
           ),
           OSRS_scale = colDef(
             show = FALSE
-          ), 
+          ),
           ### DSRS ----
           DSRS = colDef(
             format = colFormat(digits = 2),
-            cell = color_tiles(overviewData(), 
-                               number_fmt = scales::label_number(accuracy = .01),
-                               colors = c('tomato','white','dodgerblue'),
-                               color_by = "DSRS_scale",
-                               bias = 1, 
-                               box_shadow = TRUE)
+            cell = color_tiles(
+              overviewData(),
+              number_fmt = scales::label_number(accuracy = .01),
+              colors = c('tomato', 'white', 'dodgerblue'),
+              color_by = "DSRS_scale",
+              bias = 1,
+              box_shadow = TRUE
+            )
           ),
           DSRS_scale = colDef(
             show = FALSE
@@ -294,18 +301,19 @@ teamRankingsOverviewServer <- function(id,
 #' @return A UI output for reactable standings table.
 #' @export
 #' @noRd
-mod_team_rankings_ui <- function(id){
+mod_team_rankings_ui <- function(id) {
   ns <- NS(id)
   tagList(
     fluidRow(
-      div(style = "margin-right: 1rem",
-          # virtualSelectInput(
-          selectInput(
-            inputId = ns("season"),
-            label = "Select season",
-            choices = seq(2007, get_current_season()),
-            selected = get_current_season()
-          )
+      div(
+        style = "margin-right: 1rem",
+        # virtualSelectInput(
+        selectInput(
+          inputId = ns("season"),
+          label = "Select season",
+          choices = seq(2007, get_current_season()),
+          selected = get_current_season()
+        )
       )
     ),
     br(),
@@ -341,30 +349,27 @@ mod_team_rankings_ui <- function(id){
 }
 
 
-mod_team_rankings_server <- function(id,
-                                     team_features_data,
-                                     teams_data = teams_data){
-  moduleServer(id, function(input, output, session){
+mod_team_rankings_server <- function(
+  id,
+  team_features_data,
+  teams_data = teams_data
+) {
+  moduleServer(id, function(input, output, session) {
     seasonRankings <- reactive(input$season)
-    
+
     rankings_data <- reactive({
       req(seasonRankings())
-      team_features_data |> dplyr::filter(season == seasonRankings()) |>
+      team_features_data |>
+        dplyr::filter(season == seasonRankings()) |>
         dplyr::left_join(
           teams_data |> dplyr::select(team_abbr, team_logo_espn),
           by = dplyr::join_by(team == team_abbr)
         )
     })
-    
+
     teamRankingsOverviewServer(
       id = "overview",
       rankings_data = rankings_data
     )
   })
 }
-
-
-
-
-
-

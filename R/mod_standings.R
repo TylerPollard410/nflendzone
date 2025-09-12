@@ -23,47 +23,89 @@ standingsTableOutput <- function(id) {
 #' @export
 #' @noRd
 standingsTableServer <- function(
-    id,
-    standingsSeason,
-    standingsStat,
-    teams_data,
-    standingsTableData,
-    conference = NULL,
-    type = c("regular", "playoff", "nfl"),
-    rankType
+  id,
+  standingsSeason,
+  standingsStat,
+  teams_data,
+  standingsTableData,
+  conference = NULL,
+  type = c("regular", "playoff", "nfl"),
+  rankType
 ) {
   type <- match.arg(type)
   moduleServer(id, function(input, output, session) {
-    
     # Reactive table data for this table
     tableDataReact <- reactive({
       data <- standingsTableData()
       rankReg <- rankType()
-      if (!is.null(conference)) data <- data |> dplyr::filter(team_conf == conference)
+      if (!is.null(conference)) {
+        data <- data |> dplyr::filter(team_conf == conference)
+      }
       if (type == "regular" || type == "nfl") {
         cols <- if (type == "regular") {
-          c("team_division", "team_logo_espn", "team", "div_rank", "conf_rank",
-            "GP", "W", "L", "T", "W-L%",
-            "PF", "PFG", "PA", "PAG", "PD",
-            "MOV", "SOS", "SRS", "OSRS", "DSRS")
+          c(
+            "team_division",
+            "team_logo_espn",
+            "team",
+            "div_rank",
+            "conf_rank",
+            "GP",
+            "W",
+            "L",
+            "T",
+            "W-L%",
+            "PF",
+            "PFG",
+            "PA",
+            "PAG",
+            "PD",
+            "MOV",
+            "SOS",
+            "SRS",
+            "OSRS",
+            "DSRS"
+          )
           # if (rankReg == "div_rank") {
           #   stringr::str_subset(reg_cols, pattern = "conf_rank",  negate = TRUE)
           # } else stringr::str_subset(reg_cols, pattern = "conf_rank",  negate = TRUE)
         } else {
-          c("team_logo_espn", "team", "nfl_rank", "conf_rank",
-            "GP", "W", "L", "T", "W-L%",
-            "PF", "PFG", "PA", "PAG", "PD",
-            "MOV", "SOS", "SRS", "OSRS", "DSRS")
+          c(
+            "team_logo_espn",
+            "team",
+            "nfl_rank",
+            "conf_rank",
+            "GP",
+            "W",
+            "L",
+            "T",
+            "W-L%",
+            "PF",
+            "PFG",
+            "PA",
+            "PAG",
+            "PD",
+            "MOV",
+            "SOS",
+            "SRS",
+            "OSRS",
+            "DSRS"
+          )
         }
         data <- data |> dplyr::select(dplyr::any_of(cols))
         if (type != "nfl" && rankReg == "div_rank") {
-          data <- data |> dplyr::arrange(team_division, div_rank) |> dplyr::select(-div_rank, -conf_rank)
+          data <- data |>
+            dplyr::arrange(team_division, div_rank) |>
+            dplyr::select(-div_rank, -conf_rank)
         } else if (type != "nfl" && rankReg == "conf_rank") {
-          data <- data |> dplyr::arrange(conf_rank) |> dplyr::select(-team_division, -div_rank, -conf_rank)
+          data <- data |>
+            dplyr::arrange(conf_rank) |>
+            dplyr::select(-team_division, -div_rank, -conf_rank)
         } else {
-          if ("nfl_rank" %in% names(data)) data <- data |> dplyr::arrange(nfl_rank)
+          if ("nfl_rank" %in% names(data)) {
+            data <- data |> dplyr::arrange(nfl_rank)
+          }
         }
-        
+
         # if ("div_rank" %in% names(data) && is.null(conference)) {
         #   data <- data |> dplyr::arrange(team_division, div_rank)
         # }
@@ -73,12 +115,28 @@ standingsTableServer <- function(
         # if ("nfl_rank" %in% names(data)) data <- data |> dplyr::arrange(nfl_rank)
         data
       } else {
-        data |> dplyr::select(
-          seed, team_logo_espn, team_name, GP, W, L, T, `W-L%`, `CON%`, `DIV%`
-        ) |> dplyr::arrange(seed, dplyr::desc(`W-L%`), dplyr::desc(`CON%`), dplyr::desc(`DIV%`))
+        data |>
+          dplyr::select(
+            seed,
+            team_logo_espn,
+            team_name,
+            GP,
+            W,
+            L,
+            T,
+            `W-L%`,
+            `CON%`,
+            `DIV%`
+          ) |>
+          dplyr::arrange(
+            seed,
+            dplyr::desc(`W-L%`),
+            dplyr::desc(`CON%`),
+            dplyr::desc(`DIV%`)
+          )
       }
     })
-    
+
     output$standingsTable <- reactable::renderReactable({
       data <- tableDataReact()
       # REGULAR
@@ -86,92 +144,229 @@ standingsTableServer <- function(
         stat <- if (!is.null(standingsStat())) standingsStat() else "Total"
         show_data <- if (stat == "Total") {
           data |> dplyr::select(-c(PFG, PAG))
-        } else data |> dplyr::select(-c(PF, PA))
+        } else {
+          data |> dplyr::select(-c(PF, PA))
+        }
         reactable::reactable(
           show_data,
-          theme = fivethirtyeight(centered = TRUE, header_font_size = "0.9em", font_size = "1.0em"),
-          highlight = TRUE, compact = TRUE, pagination = FALSE, wrap = FALSE,
-          outlined = FALSE, bordered = FALSE, sortable = FALSE, showSortable = FALSE,
+          theme = fivethirtyeight(
+            centered = TRUE,
+            header_font_size = "0.9em",
+            font_size = "1.0em"
+          ),
+          highlight = TRUE,
+          compact = TRUE,
+          pagination = FALSE,
+          wrap = FALSE,
+          outlined = FALSE,
+          bordered = FALSE,
+          sortable = FALSE,
+          showSortable = FALSE,
           fullWidth = TRUE,
           rowStyle = if ("team_division" %in% names(data)) {
-            reactablefmtr::group_border_sort(columns = "team_division",
-                                             border_color = "black", border_width = "1.5px", border_style = "solid")
-          } else NULL,
+            reactablefmtr::group_border_sort(
+              columns = "team_division",
+              border_color = "black",
+              border_width = "1.5px",
+              border_style = "solid"
+            )
+          } else {
+            NULL
+          },
           defaultColGroup = colGroup(headerStyle = list(border = "none")),
-          columnGroups = if ("team_division" %in% names(data)) list(
-            colGroup(name = "", columns = c("team_division"), headerClass = "no-division-underline"),
-            colGroup(name = "Record", columns = c("GP", "W", "L", "T", "W-L%")),
-            colGroup(name = "Points", columns = if (stat == "Total") c("PF", "PA", "PD") else c("PFG", "PAG", "PD")),
-            colGroup(name = "Performance", columns = c("MOV", "SOS", "SRS", "OSRS", "DSRS"))
-          ) else list(
-            colGroup(name = "Record", columns = c("GP", "W", "L", "T", "W-L%")),
-            colGroup(name = "Points", columns = if (stat == "Total") c("PF", "PA", "PD") else c("PFG", "PAG", "PD")),
-            colGroup(name = "Performance", columns = c("MOV", "SOS", "SRS", "OSRS", "DSRS"))
+          columnGroups = if ("team_division" %in% names(data)) {
+            list(
+              colGroup(
+                name = "",
+                columns = c("team_division"),
+                headerClass = "no-division-underline"
+              ),
+              colGroup(
+                name = "Record",
+                columns = c("GP", "W", "L", "T", "W-L%")
+              ),
+              colGroup(
+                name = "Points",
+                columns = if (stat == "Total") {
+                  c("PF", "PA", "PD")
+                } else {
+                  c("PFG", "PAG", "PD")
+                }
+              ),
+              colGroup(
+                name = "Performance",
+                columns = c("MOV", "SOS", "SRS", "OSRS", "DSRS")
+              )
+            )
+          } else {
+            list(
+              colGroup(
+                name = "Record",
+                columns = c("GP", "W", "L", "T", "W-L%")
+              ),
+              colGroup(
+                name = "Points",
+                columns = if (stat == "Total") {
+                  c("PF", "PA", "PD")
+                } else {
+                  c("PFG", "PAG", "PD")
+                }
+              ),
+              colGroup(
+                name = "Performance",
+                columns = c("MOV", "SOS", "SRS", "OSRS", "DSRS")
+              )
+            )
+          },
+          defaultColDef = colDef(
+            vAlign = "center",
+            minWidth = 50,
+            headerStyle = list(borderTop = "none", paddingTop = "3px")
           ),
-          defaultColDef = colDef(vAlign = "center", minWidth = 50,
-                                 headerStyle = list(borderTop = "none", paddingTop = "3px")),
           columns = list(
-            team_division = colDef(name = "", minWidth = 90, style = group_merge_sort("team_division")),
-            team_logo_espn = colDef(name = "", maxWidth = 35, sticky = "left",
-                                    cell = embed_img(width = "30px", height = "30px")),
-            team = colDef(name = "Team", maxWidth = 60, style = list(borderRight = "1px solid black")),
-            GP = colDef(name = "GP", minWidth = 40, align = "center", style = list(borderRight = "1px dashed #d3d3d3")),
+            team_division = colDef(
+              name = "",
+              minWidth = 90,
+              style = group_merge_sort("team_division")
+            ),
+            team_logo_espn = colDef(
+              name = "",
+              maxWidth = 35,
+              sticky = "left",
+              cell = embed_img(width = "30px", height = "30px")
+            ),
+            team = colDef(
+              name = "Team",
+              maxWidth = 60,
+              style = list(borderRight = "1px solid black")
+            ),
+            GP = colDef(
+              name = "GP",
+              minWidth = 40,
+              align = "center",
+              style = list(borderRight = "1px dashed #d3d3d3")
+            ),
             W = colDef(name = "W", align = "center", minWidth = 30),
             L = colDef(name = "L", align = "center", minWidth = 30),
             T = colDef(name = "T", align = "center", minWidth = 30),
-            `W-L%` = colDef(name = "W-L%", format = colFormat(percent = TRUE, digits = 1), align = "center",
-                            minWidth = 60, style = list(borderRight = "1px solid #d3d3d3")),
+            `W-L%` = colDef(
+              name = "W-L%",
+              format = colFormat(percent = TRUE, digits = 1),
+              align = "center",
+              minWidth = 60,
+              style = list(borderRight = "1px solid #d3d3d3")
+            ),
             PFG = colDef(format = colFormat(digits = 2)),
             PAG = colDef(format = colFormat(digits = 2)),
-            PD = colDef(align = "center", style = list(borderRight = "1px solid #d3d3d3")),
+            PD = colDef(
+              align = "center",
+              style = list(borderRight = "1px solid #d3d3d3")
+            ),
             MOV = colDef(format = colFormat(digits = 2)),
             SOS = colDef(format = colFormat(digits = 2)),
-            SRS = colDef(format = colFormat(digits = 2),
-                         style = color_scales(data = data,
-                                              colors = c("red", "pink", "whitesmoke", "palegreen", "green"),
-                                              bias = 1, brighten_text = FALSE)),
+            SRS = colDef(
+              format = colFormat(digits = 2),
+              style = color_scales(
+                data = data,
+                colors = c("red", "pink", "whitesmoke", "palegreen", "green"),
+                bias = 1,
+                brighten_text = FALSE
+              )
+            ),
             OSRS = colDef(format = colFormat(digits = 2)),
             DSRS = colDef(format = colFormat(digits = 2)),
             conf_rank = colDef(name = "Conf", minWidth = 40, align = "center"),
-            nfl_rank  = colDef(name = "NFL", minWidth = 40, align = "center")
+            nfl_rank = colDef(name = "NFL", minWidth = 40, align = "center")
           )
         )
         # NFL RANK TABLE
       } else if (type == "nfl") {
         reactable::reactable(
           data,
-          theme = fivethirtyeight(centered = TRUE, header_font_size = "0.9em", font_size = "1.0em"),
-          highlight = TRUE, compact = TRUE, pagination = FALSE, wrap = FALSE,
-          outlined = FALSE, bordered = FALSE, sortable = FALSE, showSortable = FALSE,
+          theme = fivethirtyeight(
+            centered = TRUE,
+            header_font_size = "0.9em",
+            font_size = "1.0em"
+          ),
+          highlight = TRUE,
+          compact = TRUE,
+          pagination = FALSE,
+          wrap = FALSE,
+          outlined = FALSE,
+          bordered = FALSE,
+          sortable = FALSE,
+          showSortable = FALSE,
           fullWidth = TRUE,
           defaultColGroup = colGroup(headerStyle = list(border = "none")),
           columnGroups = list(
             colGroup(name = "Rank", columns = c("nfl_rank", "conf_rank")),
             colGroup(name = "Record", columns = c("GP", "W", "L", "T", "W-L%")),
-            colGroup(name = "Points", columns = c("PF", "PFG", "PA", "PAG", "PD")),
-            colGroup(name = "Performance", columns = c("MOV", "SOS", "SRS", "OSRS", "DSRS"))
+            colGroup(
+              name = "Points",
+              columns = c("PF", "PFG", "PA", "PAG", "PD")
+            ),
+            colGroup(
+              name = "Performance",
+              columns = c("MOV", "SOS", "SRS", "OSRS", "DSRS")
+            )
           ),
-          defaultColDef = colDef(vAlign = "center", minWidth = 50,
-                                 headerStyle = list(borderTop = "none", paddingTop = "3px")),
+          defaultColDef = colDef(
+            vAlign = "center",
+            minWidth = 50,
+            headerStyle = list(borderTop = "none", paddingTop = "3px")
+          ),
           columns = list(
-            team_logo_espn = colDef(name = "", maxWidth = 35, sticky = "left",
-                                    cell = embed_img(width = "30px", height = "30px")),
-            team = colDef(name = "Team", maxWidth = 60, style = list(borderRight = "1px solid black")),
-            nfl_rank  = colDef(name = "NFL", minWidth = 40, align = "center"),
-            conf_rank = colDef(name = "Conf", minWidth = 40, align = "center", style = list(borderRight = "1px solid #d3d3d3")),
-            GP = colDef(name = "GP", minWidth = 40, align = "center", style = list(borderRight = "1px dashed #d3d3d3")),
+            team_logo_espn = colDef(
+              name = "",
+              maxWidth = 35,
+              sticky = "left",
+              cell = embed_img(width = "30px", height = "30px")
+            ),
+            team = colDef(
+              name = "Team",
+              maxWidth = 60,
+              style = list(borderRight = "1px solid black")
+            ),
+            nfl_rank = colDef(name = "NFL", minWidth = 40, align = "center"),
+            conf_rank = colDef(
+              name = "Conf",
+              minWidth = 40,
+              align = "center",
+              style = list(borderRight = "1px solid #d3d3d3")
+            ),
+            GP = colDef(
+              name = "GP",
+              minWidth = 40,
+              align = "center",
+              style = list(borderRight = "1px dashed #d3d3d3")
+            ),
             W = colDef(name = "W", align = "center", minWidth = 30),
             L = colDef(name = "L", align = "center", minWidth = 30),
             T = colDef(name = "T", align = "center", minWidth = 30),
-            `W-L%` = colDef(name = "W-L%", format = colFormat(percent = TRUE, digits = 1), align = "center",
-                            minWidth = 60, style = list(borderRight = "1px solid #d3d3d3")),
+            `W-L%` = colDef(
+              name = "W-L%",
+              format = colFormat(percent = TRUE, digits = 1),
+              align = "center",
+              minWidth = 60,
+              style = list(borderRight = "1px solid #d3d3d3")
+            ),
             PFG = colDef(format = colFormat(digits = 2)),
             PAG = colDef(format = colFormat(digits = 2)),
-            PD = colDef(align = "center", style = list(borderRight = "1px solid #d3d3d3")),
+            PD = colDef(
+              align = "center",
+              style = list(borderRight = "1px solid #d3d3d3")
+            ),
             MOV = colDef(format = colFormat(digits = 2)),
             SOS = colDef(format = colFormat(digits = 2)),
-            SRS = colDef(format = colFormat(digits = 2),
-                         style = color_scales(data = data, colors = c("red", "pink", "whitesmoke", "palegreen", "green"), bias = 1, brighten_text = FALSE)),
+            SRS = colDef(
+              format = colFormat(digits = 2),
+              style = color_scales(
+                data = data,
+                colors = c("red", "pink", "whitesmoke", "palegreen", "green"),
+                bias = 1,
+                brighten_text = FALSE
+              )
+            ),
             OSRS = colDef(format = colFormat(digits = 2)),
             DSRS = colDef(format = colFormat(digits = 2))
           )
@@ -180,47 +375,116 @@ standingsTableServer <- function(
       } else {
         reactable::reactable(
           data,
-          theme = fivethirtyeight(centered = TRUE, header_font_size = "0.9em", font_size = "1.0em"),
-          highlight = TRUE, compact = TRUE, pagination = FALSE, wrap = FALSE,
-          outlined = FALSE, sortable = FALSE, showSortable = FALSE, fullWidth = TRUE,
+          theme = fivethirtyeight(
+            centered = TRUE,
+            header_font_size = "0.9em",
+            font_size = "1.0em"
+          ),
+          highlight = TRUE,
+          compact = TRUE,
+          pagination = FALSE,
+          wrap = FALSE,
+          outlined = FALSE,
+          sortable = FALSE,
+          showSortable = FALSE,
+          fullWidth = TRUE,
           columns = list(
-            seed = colDef(name = "Seed", align = "center", minWidth = 50, sticky = "left"),
-            team_logo_espn = colDef(name = "", minWidth = 30, sticky = "left", cell = embed_img(height = "25px")),
-            team_name = colDef(name = "Team", minWidth = 150, style = list(borderRight = "1px solid black")),
-            GP = colDef(name = "GP", align = "center", minWidth = 30, style = list(borderRight = "1px dashed #d3d3d3")),
+            seed = colDef(
+              name = "Seed",
+              align = "center",
+              minWidth = 50,
+              sticky = "left"
+            ),
+            team_logo_espn = colDef(
+              name = "",
+              minWidth = 30,
+              sticky = "left",
+              cell = embed_img(height = "25px")
+            ),
+            team_name = colDef(
+              name = "Team",
+              minWidth = 150,
+              style = list(borderRight = "1px solid black")
+            ),
+            GP = colDef(
+              name = "GP",
+              align = "center",
+              minWidth = 30,
+              style = list(borderRight = "1px dashed #d3d3d3")
+            ),
             W = colDef(name = "W", align = "center", minWidth = 30),
             L = colDef(name = "L", align = "center", minWidth = 30),
-            T = colDef(name = "T", align = "center", minWidth = 30, style = list(borderRight = "1px solid #d3d3d3")),
-            `W-L%` = colDef(name = "W-L%", format = colFormat(percent = TRUE, digits = 1), align = "center", minWidth = 50, style = list(borderRight = "1px solid #d3d3d3")),
-            `CON%` = colDef(name = "CON%", format = colFormat(percent = TRUE, digits = 1), align = "center", minWidth = 50, style = list(borderRight = "1px solid #d3d3d3")),
-            `DIV%` = colDef(name = "DIV%", format = colFormat(percent = TRUE, digits = 1), align = "center", minWidth = 50)
+            T = colDef(
+              name = "T",
+              align = "center",
+              minWidth = 30,
+              style = list(borderRight = "1px solid #d3d3d3")
+            ),
+            `W-L%` = colDef(
+              name = "W-L%",
+              format = colFormat(percent = TRUE, digits = 1),
+              align = "center",
+              minWidth = 50,
+              style = list(borderRight = "1px solid #d3d3d3")
+            ),
+            `CON%` = colDef(
+              name = "CON%",
+              format = colFormat(percent = TRUE, digits = 1),
+              align = "center",
+              minWidth = 50,
+              style = list(borderRight = "1px solid #d3d3d3")
+            ),
+            `DIV%` = colDef(
+              name = "DIV%",
+              format = colFormat(percent = TRUE, digits = 1),
+              align = "center",
+              minWidth = 50
+            )
           )
         )
       }
     })
-    
+
     output$standingsTableUI <- renderUI({
       ns <- session$ns
       title_logo <- if (!is.null(conference)) {
-        teams_data |> dplyr::filter(team_conf == conference) |> dplyr::pull(team_conference_logo) |> unique()
+        teams_data |>
+          dplyr::filter(team_conf == conference) |>
+          dplyr::pull(team_conference_logo) |>
+          unique()
       } else {
         teams_data |> dplyr::pull(team_league_logo) |> unique()
       }
-      
+
       table_title <- switch(
         type,
-        "regular" = if (!is.null(conference)) paste(conference, "Standings") else "NFL Standings",
-        "playoff" = if (!is.null(conference)) paste(conference, "Playoff Standings") else "NFL Playoffs",
-        "nfl"     = "NFL Standings"
+        "regular" = if (!is.null(conference)) {
+          paste(conference, "Standings")
+        } else {
+          "NFL Standings"
+        },
+        "playoff" = if (!is.null(conference)) {
+          paste(conference, "Playoff Standings")
+        } else {
+          "NFL Playoffs"
+        },
+        "nfl" = "NFL Standings"
       )
       tagList(
-        tags$style(HTML(".no-division-underline.rt-th-group:after {display: none !important;} .card-body { padding: 0px }")),
+        tags$style(HTML(
+          ".no-division-underline.rt-th-group:after {display: none !important;} .card-body { padding: 0px }"
+        )),
         box(
           title = div(
             style = "display: flex; align-items: center;",
-            if (!is.null(title_logo)) img(src = title_logo, style = "height: 25px;"),
+            if (!is.null(title_logo)) {
+              img(src = title_logo, style = "height: 25px;")
+            },
             strong(table_title, style = "margin-left: 6px; font-size: 25px;"),
-            strong(standingsSeason(), style = "margin-left: 6px; font-size: 20px;")
+            strong(
+              standingsSeason(),
+              style = "margin-left: 6px; font-size: 20px;"
+            )
           ),
           width = 12,
           status = "primary",
@@ -244,32 +508,39 @@ mod_standings_ui <- function(id) {
   ns <- NS(id)
   tagList(
     fluidRow(
-      div(style = "margin-right: 1rem",
-          selectInput(
-            inputId = ns("season"),
-            label = "Select season",
-            choices = seq(2007, get_current_season()),
-            selected = get_current_season()
-          )
+      div(
+        style = "margin-right: 1rem",
+        selectInput(
+          inputId = ns("season"),
+          label = "Select season",
+          choices = seq(2007, get_current_season()),
+          selected = get_current_season()
+        )
       ),
-      div(style = "margin-right: 1rem",
-          radioButtons(
-            inputId = ns("stat"),
-            label = "Table Statistic",
-            choices = c("Total", "Game"),
-            inline = TRUE
-            #status = "info"
-          )
+      div(
+        style = "margin-right: 1rem",
+        radioButtons(
+          inputId = ns("stat"),
+          label = "Table Statistic",
+          choices = c("Total", "Game"),
+          inline = TRUE
+          #status = "info"
+        )
       ),
-      div(style = "margin-right: 1rem",
-          radioButtons(
-            inputId = ns("rank_type"),
-            label = "Rank Type",
-            choices = c("Division" = "div_rank", "Conference" = "conf_rank", "NFL" = "nfl_rank"),
-            selected = "div_rank",
-            inline = TRUE
-            #status = "info"
-          )
+      div(
+        style = "margin-right: 1rem",
+        radioButtons(
+          inputId = ns("rank_type"),
+          label = "Rank Type",
+          choices = c(
+            "Division" = "div_rank",
+            "Conference" = "conf_rank",
+            "NFL" = "nfl_rank"
+          ),
+          selected = "div_rank",
+          inline = TRUE
+          #status = "info"
+        )
       )
       # div(style = "margin-right: 1rem",
       #     shinyWidgets::virtualSelectInput(
@@ -336,14 +607,15 @@ mod_standings_server <- function(id, teams_data, season_standings_data) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
     standingsSeason <- reactive(as.numeric(input$season))
-    standingsStat   <- reactive(input$stat)
-    rankType        <- reactive(input$rank_type)
-    
+    standingsStat <- reactive(input$stat)
+    rankType <- reactive(input$rank_type)
+
     selected_season_data <- reactive({
       req(standingsSeason())
       # standings_df <- load_season_standings_data(seasons = standingsSeason())
       # standings_df |>
-      season_standings_data |> dplyr::filter(season == standingsSeason()) |>
+      season_standings_data |>
+        dplyr::filter(season == standingsSeason()) |>
         # Join for logo and team name (assumes 'team' is the key in both)
         dplyr::left_join(
           teams_data |> dplyr::select(team_abbr, team_logo_espn, team_name),
@@ -369,67 +641,69 @@ mod_standings_server <- function(id, teams_data, season_standings_data) {
           DSRS = DSRS,
           PFG = round(pf / games, 2),
           PAG = round(pa / games, 2),
-          seed = conf_rank  # For playoff tables
+          seed = conf_rank # For playoff tables
         ) |>
         dplyr::relocate(team_logo_espn, .after = team_division)
     })
-    
+
     nfl_data <- reactive({
       data <- selected_season_data()
-      data <- data |> arrange(desc(win_pct), desc(SRS)) |> mutate(nfl_rank = row_number())
+      data <- data |>
+        arrange(desc(win_pct), desc(SRS)) |>
+        mutate(nfl_rank = row_number())
       data |> arrange(team)
     })
-    
+
     # Register all child tables
     standingsTableServer(
       id = "afcReg",
       standingsSeason = standingsSeason,
-      standingsStat   = standingsStat,
-      teams_data      = teams_data,
+      standingsStat = standingsStat,
+      teams_data = teams_data,
       standingsTableData = selected_season_data,
-      conference      = "AFC",
-      type            = "regular",
-      rankType        = rankType
+      conference = "AFC",
+      type = "regular",
+      rankType = rankType
     )
     standingsTableServer(
       id = "nfcReg",
       standingsSeason = standingsSeason,
-      standingsStat   = standingsStat,
-      teams_data      = teams_data,
+      standingsStat = standingsStat,
+      teams_data = teams_data,
       standingsTableData = selected_season_data,
-      conference      = "NFC",
-      type            = "regular",
-      rankType        = rankType
+      conference = "NFC",
+      type = "regular",
+      rankType = rankType
     )
     standingsTableServer(
       id = "afcPlayoff",
       standingsSeason = standingsSeason,
-      standingsStat   = NULL,
-      teams_data      = teams_data,
+      standingsStat = NULL,
+      teams_data = teams_data,
       standingsTableData = selected_season_data,
-      conference      = "AFC",
-      type            = "playoff",
-      rankType        = rankType
+      conference = "AFC",
+      type = "playoff",
+      rankType = rankType
     )
     standingsTableServer(
       id = "nfcPlayoff",
       standingsSeason = standingsSeason,
-      standingsStat   = NULL,
-      teams_data      = teams_data,
+      standingsStat = NULL,
+      teams_data = teams_data,
       standingsTableData = selected_season_data,
-      conference      = "NFC",
-      type            = "playoff",
-      rankType        = rankType
+      conference = "NFC",
+      type = "playoff",
+      rankType = rankType
     )
     standingsTableServer(
       id = "nflTable",
       standingsSeason = standingsSeason,
-      standingsStat   = standingsStat,
-      teams_data      = teams_data,
+      standingsStat = standingsStat,
+      teams_data = teams_data,
       standingsTableData = nfl_data,
-      conference      = NULL,
-      type            = "nfl",
-      rankType        = rankType
+      conference = NULL,
+      type = "nfl",
+      rankType = rankType
     )
   })
 }
