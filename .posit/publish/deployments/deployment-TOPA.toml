@@ -2,22 +2,47 @@
 '$schema' = 'https://cdn.posit.co/publisher/schemas/posit-publishing-record-schema-v3.json'
 server_type = 'connect_cloud'
 server_url = 'https://connect.posit.cloud'
-client_version = '1.22.0'
+client_version = '1.23.9'
 created_at = ''
 dismissed_at = ''
 type = 'r-shiny'
-configuration_name = 'Endzone Analytics-O3BM'
-id = '0199ae56-ec9c-c407-5ab0-f044f8e8d276'
-dashboard_url = 'https://connect.posit.cloud/tylerpollard410/content/0199ae56-ec9c-c407-5ab0-f044f8e8d276'
-direct_url = 'https://0199ae56-ec9c-c407-5ab0-f044f8e8d276.share.connect.posit.cloud'
-logs_url = 'https://connect.posit.cloud/tylerpollard410/content/0199ae56-ec9c-c407-5ab0-f044f8e8d276/history'
-deployed_at = '2025-10-04T04:39:14-04:00'
-bundle_id = '0199ae5f-f68d-161f-674a-b9386e6b8a25'
+configuration_name = 'Endzone Analytics-BDM5'
+id = '0199ae80-e240-e1ba-43ab-5fd7816c70fc'
+dashboard_url = 'https://connect.posit.cloud/tylerpollard410/content/0199ae80-e240-e1ba-43ab-5fd7816c70fc'
+direct_url = 'https://0199ae80-e240-e1ba-43ab-5fd7816c70fc.share.connect.posit.cloud'
+logs_url = 'https://connect.posit.cloud/tylerpollard410/content/0199ae80-e240-e1ba-43ab-5fd7816c70fc/history'
+deployed_at = '2025-10-04T06:01:59-04:00'
+bundle_id = '0199aeab-bd0e-2891-ae70-cca22148138f'
 files = [
-  '.posit/publish/Endzone Analytics-O3BM.toml',
-  '.posit/publish/deployments/deployment-GEOE.toml',
+  '.Rprofile',
+  '.posit/publish/Endzone Analytics-BDM5.toml',
+  '.posit/publish/deployments/deployment-TOPA.toml',
+  'DESCRIPTION',
+  'NAMESPACE',
+  'R/_disable_autoload.R',
+  'R/app_config.R',
+  'R/app_server.R',
+  'R/app_ui.R',
+  'R/fct_load_game_data.R',
+  'R/fct_load_game_data_long.R',
+  'R/mod_standings.R',
+  'R/mod_team_rankings.R',
+  'R/run_app.R',
+  'R/utils_clean_nflverese_data.R',
   'app.R',
-  'renv.lock'
+  'inst/WORDLIST',
+  'inst/app/docs/Description.Rmd',
+  'inst/app/docs/Modeling_Info.Rmd',
+  'inst/app/docs/Purpose.Rmd',
+  'inst/app/www/custom.css',
+  'inst/app/www/favicon.ico',
+  'inst/app/www/favicon.png',
+  'inst/app/www/nfl_logo.jpeg',
+  'inst/golem-config.yml',
+  'inst/start_up_data.R',
+  'renv.lock',
+  'renv/activate.R',
+  'renv/settings.json'
 ]
 
 [connect_cloud]
@@ -36,8 +61,17 @@ entrypoint = 'app.R'
 validate = true
 files = [
   '/app.R',
-  '/.posit/publish/Endzone Analytics-O3BM.toml',
-  '/.posit/publish/deployments/deployment-GEOE.toml'
+  '/.posit/publish/Endzone Analytics-BDM5.toml',
+  '/.posit/publish/deployments/deployment-TOPA.toml',
+  '/R',
+  '/NAMESPACE',
+  '/DESCRIPTION',
+  '/inst',
+  '/renv.lock',
+  '/renv/activate.R',
+  '/renv/settings.json',
+  '/.Rprofile',
+  '/manifest.json'
 ]
 title = 'Endzone Analytics'
 

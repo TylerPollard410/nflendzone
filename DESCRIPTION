@@ -19,6 +19,7 @@ Imports:
     golem,
     markdown,
     nflreadr,
+    pkgload,
     reactable,
     reactablefmtr,
     scales,

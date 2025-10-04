@@ -38,15 +38,16 @@ golem::add_shinyappsio_file()
 golem::add_shinyserver_file()
 
 ## Deploy to Posit Connect or ShinyApps.io ----
+remotes::install_github("TylerPollard410/nflendzone", force = TRUE)
+
 renv::init()
-renv::snapshot(type = "implicit")
+renv::snapshot()
 renv::remove("nflendzone")
 
 ## Add/update manifest file (optional; for Git backed deployment on Posit )
 rsconnect::writeManifest()
 
 ## In command line.
-remotes::install_github("TylerPollard410/nflendzone", force = TRUE)
 rsconnect::deployApp(
   appName = desc::desc_get_field("Package"),
   appTitle = desc::desc_get_field("Package"),

@@ -8,8 +8,17 @@ entrypoint = 'app.R'
 validate = true
 files = [
   '/app.R',
-  '/.posit/publish/Endzone Analytics-O3BM.toml',
-  '/.posit/publish/deployments/deployment-GEOE.toml'
+  '/.posit/publish/Endzone Analytics-BDM5.toml',
+  '/.posit/publish/deployments/deployment-TOPA.toml',
+  '/R',
+  '/NAMESPACE',
+  '/DESCRIPTION',
+  '/inst',
+  '/renv.lock',
+  '/renv/settings.json',
+  '/.Rprofile',
+  '/manifest.json',
+  '!/renv/activate.R'
 ]
 title = 'Endzone Analytics'
 
