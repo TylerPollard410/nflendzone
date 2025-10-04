@@ -11,8 +11,8 @@ id = '01993c47-52b6-841c-94a6-6c8715363120'
 dashboard_url = 'https://connect.posit.cloud/tylerpollard410/content/01993c47-52b6-841c-94a6-6c8715363120'
 direct_url = 'https://01993c47-52b6-841c-94a6-6c8715363120.share.connect.posit.cloud'
 logs_url = 'https://connect.posit.cloud/tylerpollard410/content/01993c47-52b6-841c-94a6-6c8715363120/history'
-deployed_at = '2025-10-04T03:27:26-04:00'
-bundle_id = '0199ae1e-44f0-31b9-8919-7135a0f7ba02'
+deployed_at = '2025-10-04T03:30:52-04:00'
+bundle_id = '0199ae21-6a29-bcb3-dc97-2fe45f2c697f'
 files = [
   '.posit/publish/EndZone Analytics-UE3R.toml',
   '.posit/publish/deployments/deployment-SIUG.toml',

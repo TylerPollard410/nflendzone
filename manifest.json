@@ -3980,7 +3980,7 @@
   },
   "files": {
     ".posit/publish/deployments/deployment-SIUG.toml": {
-      "checksum": "a5906cc5648143dceac6c1db350751b2"
+      "checksum": "a4382608ddb6044c2de3e6ebd83cab68"
     },
     ".posit/publish/deployments/renv.lock": {
       "checksum": "52254af3c50d2ac562846d0082ce046e"
@@ -3992,7 +3992,7 @@
       "checksum": "74a14ab56ad77021207082d0b65c9a9a"
     },
     "app.R": {
-      "checksum": "b8e337a2d9524e4f4fd656c3fa77b809"
+      "checksum": "94b91b43126131a97dff0874f91c573f"
     },
     "CODE_OF_CONDUCT.md": {
       "checksum": "4f2513dd9b4d578fe425b1986f8ede88"
@@ -4097,7 +4097,7 @@
       "checksum": "fe4978aa9f5346a539d282d32c36c111"
     },
     "renv.lock": {
-      "checksum": "69f945fe9aade2e13f7f3f2872c16728"
+      "checksum": "a81f1b39ad610ac5e120c11079731049"
     },
     "tests/spelling.R": {
       "checksum": "6a93ce3b2159647c463dd98eb478ee1b"
