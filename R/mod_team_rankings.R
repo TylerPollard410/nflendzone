@@ -6,7 +6,7 @@ teamRankingsOverviewUI <- function(id) {
   )
 }
 
-teamRankingsOverviewServer <- function(id, rankings_data) {
+teamRankingsOverviewServer <- function(id, seasonRankings, rankings_data) {
   moduleServer(id, function(input, output, session) {
     overviewData <- reactive({
       rankings_data() |>
@@ -14,6 +14,8 @@ teamRankingsOverviewServer <- function(id, rankings_data) {
         # arrange(game_id) |>
         dplyr::select(
           team_logo_espn,
+          season,
+          week,
           team,
           games,
           wins,
@@ -49,6 +51,42 @@ teamRankingsOverviewServer <- function(id, rankings_data) {
           .after = def_total_epa_sum
         ) |>
         dplyr::mutate(
+          dplyr::across(
+            -week,
+            ~ dplyr::if_else(is.na(.x), dplyr::lag(.x, n = 1), .x)
+          ),
+          .by = team
+        ) |>
+        dplyr::full_join(
+          season_standings_data |>
+            dplyr::filter(season == seasonRankings()) |>
+            dplyr::select(
+              season,
+              team,
+              games,
+              wins = true_wins,
+              losses,
+              ties,
+              win_pct,
+              pf,
+              pa,
+              MOV,
+              SOS,
+              SRS,
+              OSRS,
+              DSRS
+            )
+          # by = dplyr::join_by(team)
+        ) |>
+        dplyr::arrange(season, week, team) |>
+        dplyr::mutate(
+          dplyr::across(
+            -week,
+            ~ dplyr::if_else(is.na(.x), dplyr::lag(.x, n = 1), .x)
+          ),
+          .by = team
+        ) |>
+        dplyr::mutate(
           pfg = pf / games,
           pag = pa / games,
           .before = MOV
@@ -57,7 +95,7 @@ teamRankingsOverviewServer <- function(id, rankings_data) {
           OSRS_scale = scale(OSRS),
           DSRS_scale = scale(DSRS)
         ) |>
-        dplyr::select(-c(pf, pa)) |>
+        dplyr::select(-c(season, week, pf, pa)) |>
         dplyr::slice_tail(n = 1, by = team) |>
         dplyr::arrange(desc(elo))
       # left_join(
@@ -369,6 +407,7 @@ mod_team_rankings_server <- function(
 
     teamRankingsOverviewServer(
       id = "overview",
+      seasonRankings = seasonRankings,
       rankings_data = rankings_data
     )
   })
