@@ -1815,8 +1815,8 @@
         "Type": "Package",
         "Package": "magrittr",
         "Title": "A Forward-Pipe Operator for R",
-        "Version": "2.0.3",
-        "Authors@R": "c(\n    person(\"Stefan Milton\", \"Bache\", , \"stefan@stefanbache.dk\", role = c(\"aut\", \"cph\"),\n           comment = \"Original author and creator of magrittr\"),\n    person(\"Hadley\", \"Wickham\", , \"hadley@rstudio.com\", role = \"aut\"),\n    person(\"Lionel\", \"Henry\", , \"lionel@rstudio.com\", role = \"cre\"),\n    person(\"RStudio\", role = c(\"cph\", \"fnd\"))\n  )",
+        "Version": "2.0.4",
+        "Authors@R": "c(\n    person(\"Stefan Milton\", \"Bache\", , \"stefan@stefanbache.dk\", role = c(\"aut\", \"cph\"),\n           comment = \"Original author and creator of magrittr\"),\n    person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = \"aut\"),\n    person(\"Lionel\", \"Henry\", , \"lionel@posit.co\", role = \"cre\"),\n    person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"),\n            comment = c(ROR = \"03wc8by49\"))\n  )",
         "Description": "Provides a mechanism for chaining commands with a new\n    forward-pipe operator, %>%. This operator will forward a value, or the\n    result of an expression, into the next function call/expression.\n    There is flexible support for the type of right-hand side expressions.\n    For more information, see package vignette.  To quote Rene Magritte,\n    \"Ceci n'est pas un pipe.\"",
         "License": "MIT + file LICENSE",
         "URL": "https://magrittr.tidyverse.org,\nhttps://github.com/tidyverse/magrittr",
@@ -1827,14 +1827,14 @@
         "ByteCompile": "Yes",
         "Config/Needs/website": "tidyverse/tidytemplate",
         "Encoding": "UTF-8",
-        "RoxygenNote": "7.1.2",
+        "RoxygenNote": "7.3.3",
         "NeedsCompilation": "yes",
-        "Packaged": "2022-03-29 09:34:37 UTC; lionel",
-        "Author": "Stefan Milton Bache [aut, cph] (Original author and creator of\n    magrittr),\n  Hadley Wickham [aut],\n  Lionel Henry [cre],\n  RStudio [cph, fnd]",
-        "Maintainer": "Lionel Henry <lionel@rstudio.com>",
+        "Packaged": "2025-09-11 16:45:15 UTC; lionel",
+        "Author": "Stefan Milton Bache [aut, cph] (Original author and creator of\n    magrittr),\n  Hadley Wickham [aut],\n  Lionel Henry [cre],\n  Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
+        "Maintainer": "Lionel Henry <lionel@posit.co>",
         "Repository": "CRAN",
-        "Date/Publication": "2022-03-30 07:30:09 UTC",
-        "Built": "R 4.5.0; x86_64-apple-darwin20; 2025-04-01 00:49:47 UTC; unix",
+        "Date/Publication": "2025-09-12 07:20:14 UTC",
+        "Built": "R 4.5.1; x86_64-apple-darwin20; 2025-09-12 09:24:51 UTC; unix",
         "Archs": "magrittr.so.dSYM"
       }
     },
@@ -1941,6 +1941,29 @@
         "Built": "R 4.5.0; ; 2025-04-18 00:11:34 UTC; unix"
       }
     },
+    "nflendzone": {
+      "Source": "github",
+      "Repository": null,
+      "description": {
+        "Package": "nflendzone",
+        "Title": "NFL EndZone Analytics Shiny Dashboard",
+        "Version": "0.1.0",
+        "Authors@R": "person(\"Tyler\", \"Pollard\", , \"tylerpollard410@gmail.com\", role = c(\"aut\", \"cre\"))",
+        "Description": "Interactive Shiny dashboard for NFL team rankings, historical\nperformance and Bayesian betting predictions (built with nflverse &\nrstan).",
+        "License": "MIT + file LICENSE",
+        "URL": "https://github.com/TylerPollard410/nflendzone",
+        "BugReports": "https://github.com/TylerPollard410/nflendzone/issues",
+        "Depends": "R (>= 4.1.0)",
+        "Imports": "bs4Dash,\nconfig,\ndplyr,\nfresh,\ngolem,\nmarkdown,\nnflreadr,\nreactable,\nreactablefmtr,\nscales,\nshiny,\nshinycssloaders,\nshinyjs,\nshinyWidgets,\nstringr",
+        "Suggests": "spelling,\ntestthat (>= 3.0.0)",
+        "Config/testthat/edition": "3",
+        "Encoding": "UTF-8",
+        "Language": "en-US",
+        "LazyData": "true",
+        "Roxygen": "list(markdown = TRUE)",
+        "RoxygenNote": "7.3.3"
+      }
+    },
     "nflreadr": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com",
@@ -2033,7 +2056,7 @@
       "description": {
         "Package": "pillar",
         "Title": "Coloured Formatting for Columns",
-        "Version": "1.11.0",
+        "Version": "1.11.1",
         "Authors@R": "\n    c(person(given = \"Kirill\",\n             family = \"M\\u00fcller\",\n             role = c(\"aut\", \"cre\"),\n             email = \"kirill@cynkra.com\",\n             comment = c(ORCID = \"0000-0002-1416-3412\")),\n      person(given = \"Hadley\",\n             family = \"Wickham\",\n             role = \"aut\"),\n      person(given = \"RStudio\",\n             role = \"cph\"))",
         "Description": "Provides 'pillar' and 'colonnade' generics designed\n    for formatting columns of data using the full range of colours\n    provided by modern terminals.",
         "License": "MIT + file LICENSE",
@@ -2043,7 +2066,7 @@
         "Suggests": "bit64, DBI, debugme, DiagrammeR, dplyr, formattable, ggplot2,\nknitr, lubridate, nanotime, nycflights13, palmerpenguins,\nrmarkdown, scales, stringi, survival, testthat (>= 3.1.1),\ntibble, units (>= 0.7.2), vdiffr, withr",
         "VignetteBuilder": "knitr",
         "Encoding": "UTF-8",
-        "RoxygenNote": "7.3.2.9000",
+        "RoxygenNote": "7.3.3.9000",
         "Config/testthat/edition": "3",
         "Config/testthat/parallel": "true",
         "Config/testthat/start-first": "format_multi_fuzz, format_multi_fuzz_2,\nformat_multi, ctl_colonnade, ctl_colonnade_1, ctl_colonnade_2",
@@ -2052,12 +2075,12 @@
         "Config/gha/extra-packages": "units=?ignore-before-r=4.3.0",
         "Config/Needs/website": "tidyverse/tidytemplate",
         "NeedsCompilation": "no",
-        "Packaged": "2025-07-04 18:25:31 UTC; kirill",
+        "Packaged": "2025-09-17 03:59:12 UTC; kirill",
         "Author": "Kirill Müller [aut, cre] (ORCID:\n    <https://orcid.org/0000-0002-1416-3412>),\n  Hadley Wickham [aut],\n  RStudio [cph]",
         "Maintainer": "Kirill Müller <kirill@cynkra.com>",
         "Repository": "CRAN",
-        "Date/Publication": "2025-07-04 19:20:02 UTC",
-        "Built": "R 4.5.1; ; 2025-07-04 21:42:57 UTC; unix"
+        "Date/Publication": "2025-09-17 11:20:02 UTC",
+        "Built": "R 4.5.1; ; 2025-09-17 13:28:07 UTC; unix"
       }
     },
     "pkgbuild": {
@@ -3957,7 +3980,10 @@
   },
   "files": {
     ".posit/publish/deployments/deployment-SIUG.toml": {
-      "checksum": "0eac72ed964d0f427788c840034967ce"
+      "checksum": "a5906cc5648143dceac6c1db350751b2"
+    },
+    ".posit/publish/deployments/renv.lock": {
+      "checksum": "52254af3c50d2ac562846d0082ce046e"
     },
     ".posit/publish/EndZone Analytics-UE3R.toml": {
       "checksum": "1f0429dc54eaac2ba47cea7290afe633"
@@ -3966,13 +3992,13 @@
       "checksum": "74a14ab56ad77021207082d0b65c9a9a"
     },
     "app.R": {
-      "checksum": "94b91b43126131a97dff0874f91c573f"
+      "checksum": "b8e337a2d9524e4f4fd656c3fa77b809"
     },
     "CODE_OF_CONDUCT.md": {
       "checksum": "4f2513dd9b4d578fe425b1986f8ede88"
     },
     "DESCRIPTION": {
-      "checksum": "7daeae97e548ad2f9d488c028701459d"
+      "checksum": "d18f9186a1ce2d6b4818586b97fd13fb"
     },
     "dev/01_start.R": {
       "checksum": "bab4fb84fb6882fffe67ac3a63a4e5f9"
@@ -4014,7 +4040,7 @@
       "checksum": "9a9b52af3fa32604bb5f604844f045b2"
     },
     "inst/start_up_data.R": {
-      "checksum": "0b97f4fa092a8caff801bc3b5a6d216b"
+      "checksum": "e5cc1643aa17e569ea5424c85cf4c649"
     },
     "inst/WORDLIST": {
       "checksum": "1856b86e2e6877e6c29ff9db5a6c1730"
@@ -4026,7 +4052,7 @@
       "checksum": "bba62c3b205f2423123dd283f456ba84"
     },
     "man/run_app.Rd": {
-      "checksum": "db153f001c7c98594f4a6e64193fbf8a"
+      "checksum": "634c12f88fd618bdc1780d585c8102b7"
     },
     "NAMESPACE": {
       "checksum": "ce2b7d7048a870cee456466edc4a17b7"
@@ -4052,14 +4078,11 @@
     "R/fct_load_game_data.R": {
       "checksum": "576f5cd7e31155c6f3798923b55901f5"
     },
-    "R/mod_plot_time": {
-      "checksum": "f765a251afafc2f2eb565cd9a84ff759"
-    },
     "R/mod_standings.R": {
       "checksum": "2e21a3e9a75a2d27fd4241296eb1ad38"
     },
     "R/mod_team_rankings.R": {
-      "checksum": "619edf298576e4ff91cfce0d9a24a92a"
+      "checksum": "36a6a78fa73ff07e87e333dfb2ac73f8"
     },
     "R/run_app.R": {
       "checksum": "558c44d3c4da277761371934c300c83e"
@@ -4074,7 +4097,7 @@
       "checksum": "fe4978aa9f5346a539d282d32c36c111"
     },
     "renv.lock": {
-      "checksum": "3d0b4879d08160b95786311ce6db9754"
+      "checksum": "69f945fe9aade2e13f7f3f2872c16728"
     },
     "tests/spelling.R": {
       "checksum": "6a93ce3b2159647c463dd98eb478ee1b"
