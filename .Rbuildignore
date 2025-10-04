@@ -1,5 +1,10 @@
-^renv$
 ^renv\.lock$
+^renv$
+^renv/library/
+^renv/local/
+^renv/sandbox/
+^renv/staging/
+^renv/python/
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
@@ -10,7 +15,6 @@ $run_dev.*
 ^LICENSE\.md$
 ^README\.Rmd$
 ^CODE_OF_CONDUCT\.md$
-^app\.R$
 ^rsconnect$
 ^\.rscignore$
 ^\.vscode$
