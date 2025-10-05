@@ -16,7 +16,7 @@
 ## Run checks ----
 ## Check the package before sending to prod
 devtools::check(args = c("--no-tests"))
-rhub::check_for_cran()
+# rhub::check_for_cran()
 
 # Deploy
 
@@ -38,7 +38,7 @@ golem::add_shinyappsio_file()
 golem::add_shinyserver_file()
 
 ## Deploy to Posit Connect or ShinyApps.io ----
-remotes::install_github("TylerPollard410/nflendzone", force = TRUE)
+remotes::install_github("TylerPollard410/nflendzone")
 
 renv::init()
 renv::snapshot()
@@ -46,6 +46,25 @@ renv::remove("nflendzone")
 
 ## Add/update manifest file (optional; for Git backed deployment on Posit )
 rsconnect::writeManifest()
+
+
+## Workflow when you add/update packages:
+# 1. Install new package
+install.packages("newpackage")
+
+# 2. Add to DESCRIPTION file (if using golem)
+# (or it gets added automatically)
+
+# 3. Update renv.lock with current state
+renv::snapshot()
+
+# 4. Generate manifest.json from renv.lock
+rsconnect::writeManifest()
+
+# 5. Commit both files
+# git add renv.lock manifest.json
+# git commit -m "Add newpackage dependency"
+# git push
 
 ## In command line.
 rsconnect::deployApp(
